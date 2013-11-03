@@ -1,0 +1,6 @@
+/build/*
+*~
+*/CMakeFiles/*
+/src/cmake_install.cmake
+/src/libModule1.a
+/src/Makefile

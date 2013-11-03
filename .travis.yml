@@ -1,0 +1,10 @@
+language: cpp
+compiler: clang
+script: mkdir build && cd build && cmake .. && make
+branches:
+  only:
+    - master
+
+before_install:
+ - sudo apt-get update -qq
+ - sudo apt-get install -qq libfreeimage-dev nvidia-opencl-dev
