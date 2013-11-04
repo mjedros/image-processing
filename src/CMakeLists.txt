@@ -13,13 +13,13 @@ include_directories("${OPENCL_INC}")
 
 find_path(FREEIMAGE_INC
 	NAMES "FreeImage.h"
-	PATHS "${FREEIMAGE_ROOT}/Dist" "C:/FreeImage/Dist"
+	PATHS "${FREEIMAGE_ROOT}/Dist"
 )
 include_directories("${FREEIMAGE_INC}")
 
 find_library(FREEIMAGE_LIB
 	NAMES FreeImage freeimage
-	PATHS "${FREEIMAGE_ROOT}/Dist" "C:/FreeImage/Dist"
+	PATHS "${FREEIMAGE_ROOT}/Dist"
 )
 target_link_libraries (HelloWorldExe ${FREEIMAGE_LIB})
 
