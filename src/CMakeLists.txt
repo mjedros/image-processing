@@ -33,17 +33,17 @@ find_path(OPENCV_INC
 include_directories("${OPENCV_INC}")
 
 find_library(OPENCV_CALIB3D_LIB
-		NAMES opencv_calib3d246
+		NAMES opencv_calib3d246 opencv_calib3d
 		PATHS "$ENV{OPENCV_DIR}/build/x86/vc11/lib"
 		)
 		
 find_library(OPENCV_CORE_LIB
-		NAMES opencv_core246
+		NAMES opencv_core246 opencv_core
 		PATHS "$ENV{OPENCV_DIR}/build/x86/vc11/lib"
 		)
 		
 find_library(OPENCV_HIGHGUI_LIB
-		NAMES opencv_highgui246
+		NAMES opencv_highgui246 opencv_highgui
 		PATHS "$ENV{OPENCV_DIR}/build/x86/vc11/lib"
 		)
 
