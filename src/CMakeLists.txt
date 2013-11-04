@@ -25,6 +25,34 @@ target_link_libraries (HelloWorldExe ${FREEIMAGE_LIB})
 
 include_directories("${FREEIMAGE_INC}")
 
+
+find_path(OPENCV_INC
+		NAMES "opencv2/opencv.hpp"
+		PATHS "$ENV{OPENCV_DIR}/build/include"
+		)
+include_directories("${OPENCV_INC}")
+
+find_library(OPENCV_CALIB3D_LIB
+		NAMES opencv_calib3d246
+		PATHS "$ENV{OPENCV_DIR}/build/x86/vc11/lib"
+		)
+		
+find_library(OPENCV_CORE_LIB
+		NAMES opencv_core246
+		PATHS "$ENV{OPENCV_DIR}/build/x86/vc11/lib"
+		)
+		
+find_library(OPENCV_HIGHGUI_LIB
+		NAMES opencv_highgui246
+		PATHS "$ENV{OPENCV_DIR}/build/x86/vc11/lib"
+		)
+
+
+target_link_libraries (HelloWorldExe ${OPENCV_CORE_LIB})		
+target_link_libraries (HelloWorldExe ${OPENCV_CALIB3D_LIB})
+target_link_libraries (HelloWorldExe ${OPENCV_HIGHGUI_LIB})
+
+
 if(${UNIX})
 	set(CMAKE_CXX_FLAGS "-std=c++11")
 endif(${UNIX})
