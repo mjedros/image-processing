@@ -1,12 +1,12 @@
 add_executable(HelloWorldExe HelloWorld.cpp file.cpp)
 find_library(OPENCL_LIB 
 	NAMES OpenCL
-	PATHS "$ENV{AMDAPPSDKROOT}/lib/x86"
+	PATHS "$ENV{AMDAPPSDKROOT}/lib/x86" "$ENV{CUDA_PATH}/lib/Win32"
 	)
 target_link_libraries (HelloWorldExe ${OPENCL_LIB})
 find_path(OPENCL_INC
 	NAMES "CL/cl.h"
-	PATHS "$ENV{AMDAPPSDKROOT}/include"
+	PATHS "$ENV{AMDAPPSDKROOT}/include" "$ENV{CUDA_PATH}/include"
 )
 
 include_directories("${OPENCL_INC}")
