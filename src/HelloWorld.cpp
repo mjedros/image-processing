@@ -1,4 +1,3 @@
-#include <Windows.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -20,15 +19,14 @@
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv/highgui.h>
 
-
-#include <Jai_Factory.h>
-
-#ifndef _CRT_SECURE_NO_WARNINGS
-# define _CRT_SECURE_NO_WARNINGS
+#ifndef NO_JAI_CAMERA
+  #include <Jai_Factory.h>
 #endif
 
 using namespace cv;
 using std::cout;
+
+#ifndef NO_JAI_CAMERA
 BOOL OpenFactoryAndCamera()
 {
 	J_STATUS_TYPE   retval;
@@ -94,7 +92,9 @@ BOOL OpenFactoryAndCamera()
 
 	return TRUE;
 }
-
+#else
+BOOL OpenFactoryAndCamera(){}
+#endif
 
 int main(int argc, char* argv[])
 {
