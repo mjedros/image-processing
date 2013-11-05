@@ -1,3 +1,4 @@
+#include <Windows.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -19,42 +20,88 @@
 #include <opencv2/calib3d/calib3d.hpp>
 #include <opencv/highgui.h>
 
+
+#include <Jai_Factory.h>
+
 #ifndef _CRT_SECURE_NO_WARNINGS
 # define _CRT_SECURE_NO_WARNINGS
 #endif
 
 using namespace cv;
+using std::cout;
+BOOL OpenFactoryAndCamera()
+{
+	J_STATUS_TYPE   retval;
+	uint32_t        iSize;
+	uint32_t        iNumDev;
+	bool8_t         bHasChange;
+	FACTORY_HANDLE m_hFactory;
+
+	// Open factory
+	retval = J_Factory_Open(reinterpret_cast<const int8_t*>("") , &m_hFactory);
+	if (retval != J_ST_SUCCESS)
+	{
+		cout << "Could not open factory!";
+		return FALSE;
+	}
+	cout << "Opening factory succeeded\n" ;
+
+	// Update camera list
+	retval = J_Factory_UpdateCameraList(m_hFactory, &bHasChange);
+	if (retval != J_ST_SUCCESS)
+	{
+		cout << "Could not update camera list!";
+		return FALSE;
+	}
+	cout << "Updating camera list succeeded\n";
+
+	// Get the number of Cameras
+	retval = J_Factory_GetNumOfCameras(m_hFactory, &iNumDev);
+	if (retval != J_ST_SUCCESS)
+	{
+		cout << "Could not get the number of cameras!";
+		return FALSE;
+	}
+	if (iNumDev == 0)
+	{
+		cout << "There is no camera!";
+		return FALSE;
+	}
+	cout << iNumDev << " cameras were found\n";
+
+	// Get camera ID
+	int8_t m_sCameraId[J_CAMERA_ID_SIZE];    // Camera ID
+	iSize = (uint32_t)sizeof(m_sCameraId);
+	retval = J_Factory_GetCameraIDByIndex(m_hFactory, 0, m_sCameraId, &iSize);
+	if (retval != J_ST_SUCCESS)
+	{
+		cout << "Could not get the camera ID!";
+		return FALSE;
+	}
+	using std::string;
+	cout << "Camera ID: ";//<< string(static_cast<char*>(m_sCameraId));
+
+	// Open camera
+	CAM_HANDLE      m_hCam;         // Camera Handle
+	retval = J_Camera_Open(m_hFactory, m_sCameraId, &m_hCam);
+	if (retval != J_ST_SUCCESS)
+	{
+		cout << "Could not open the camera!";
+		return FALSE;
+	}
+	cout << "Opening camera succeeded\n";
+	printf ("Id %s",m_sCameraId);
+
+	return TRUE;
+}
 
 
 int main(int argc, char* argv[])
 {
-	cvWaitKey(0);
+	OpenFactoryAndCamera();
 	int i;
-	std::cin.get();
-	Mat image = imread("xx1.jpg", CV_LOAD_IMAGE_COLOR);
-	Size patternSize(9, 6);
-	vector<Point2f> imagePoints;
-
-
-
-	auto x = findChessboardCorners(image, patternSize, imagePoints);
-	for (auto& p : imagePoints)
-		circle(image, p, 4, Scalar(0, 200, 300), -1);
-
-	vector<Point2f> patternPoints;
-	Mat pattern = imread("pattern.png", CV_LOAD_IMAGE_COLOR);
-	findChessboardCorners(pattern, patternSize, patternPoints);
-	for (auto& item : patternPoints)
-		circle(pattern, item, 4, Scalar(0, 200, 300), -1);
-
-
-	Mat cameraMatrix = Mat::eye(3, 3, CV_64F);
-	Mat distCoeffs = Mat::zeros(8, 1, CV_64F);
-	imshow("W", image);
-	
-	vector<Mat> rvecs, tvecs;
-	calibrateCamera(patternPoints, imagePoints, image.size(), cameraMatrix, distCoeffs, rvecs, tvecs, CALIB_FIX_K4 | CALIB_FIX_K5);
-
+	using std::cin;
+	cin >> i;
 }
 
 

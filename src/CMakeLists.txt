@@ -32,6 +32,16 @@ find_path(OPENCV_INC
 		)
 include_directories("${OPENCV_INC}")
 
+find_path(JAI_INC
+	NAMES "Jai_Factory.h"
+	PATHS "C:/Programy/JAI/SDK/library/CPP/include"
+	)
+include_directories("${JAI_INC}")
+find_library(Jai_Factory_Lib
+	NAMES Jai_Factory
+	PATHS "C:/Programy/JAI/SDK/library/CPP/lib/Win32_i86"
+	)
+target_link_libraries (HelloWorldExe ${Jai_Factory_Lib})
 find_library(OPENCV_CALIB3D_LIB
 		NAMES opencv_calib3d246 opencv_calib3d
 		PATHS "$ENV{OPENCV_DIR}/build/x86/vc11/lib"
@@ -51,7 +61,7 @@ find_library(OPENCV_HIGHGUI_LIB
 target_link_libraries (HelloWorldExe ${OPENCV_CORE_LIB})		
 target_link_libraries (HelloWorldExe ${OPENCV_CALIB3D_LIB})
 target_link_libraries (HelloWorldExe ${OPENCV_HIGHGUI_LIB})
-
+	
 
 if(${UNIX})
 	set(CMAKE_CXX_FLAGS "-std=c++11")
