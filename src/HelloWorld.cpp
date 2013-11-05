@@ -27,7 +27,7 @@ using namespace cv;
 using std::cout;
 
 #ifndef NO_JAI_CAMERA
-BOOL OpenFactoryAndCamera()
+bool OpenFactoryAndCamera()
 {
 	J_STATUS_TYPE   retval;
 	uint32_t        iSize;
@@ -40,7 +40,7 @@ BOOL OpenFactoryAndCamera()
 	if (retval != J_ST_SUCCESS)
 	{
 		cout << "Could not open factory!";
-		return FALSE;
+		return false;
 	}
 	cout << "Opening factory succeeded\n" ;
 
@@ -49,7 +49,7 @@ BOOL OpenFactoryAndCamera()
 	if (retval != J_ST_SUCCESS)
 	{
 		cout << "Could not update camera list!";
-		return FALSE;
+		return false;
 	}
 	cout << "Updating camera list succeeded\n";
 
@@ -58,12 +58,12 @@ BOOL OpenFactoryAndCamera()
 	if (retval != J_ST_SUCCESS)
 	{
 		cout << "Could not get the number of cameras!";
-		return FALSE;
+		return false;
 	}
 	if (iNumDev == 0)
 	{
 		cout << "There is no camera!";
-		return FALSE;
+		return false;
 	}
 	cout << iNumDev << " cameras were found\n";
 
@@ -74,7 +74,7 @@ BOOL OpenFactoryAndCamera()
 	if (retval != J_ST_SUCCESS)
 	{
 		cout << "Could not get the camera ID!";
-		return FALSE;
+		return false;
 	}
 	using std::string;
 	cout << "Camera ID: ";//<< string(static_cast<char*>(m_sCameraId));
@@ -90,13 +90,16 @@ BOOL OpenFactoryAndCamera()
 	cout << "Opening camera succeeded\n";
 	printf ("Id %s",m_sCameraId);
 
-	return TRUE;
+	return true;
 }
 #else
-BOOL OpenFactoryAndCamera(){}
+bool OpenFactoryAndCamera()
+{
+	return false;
+}
 #endif
 
-int main(int argc, char* argv[])
+int main()
 {
 	OpenFactoryAndCamera();
 	int i;
